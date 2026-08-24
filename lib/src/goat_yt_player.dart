@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'goat_yt_player_controller.dart';
 
 class GoatYtPlayer extends StatefulWidget {
@@ -79,8 +81,18 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
   void initState() {
     super.initState();
     _internalController = widget.controller ?? GoatYtPlayerController();
-    
-    _webViewController = WebViewController()
+
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserActionForPlayback: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+
+    _webViewController = WebViewController.fromPlatformCreationParams(params)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.black)
       ..addJavaScriptChannel(
@@ -88,7 +100,13 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
         onMessageReceived: _handleMessage,
       )
       ..loadRequest(Uri.parse(_buildUrl()));
-      
+
+    if (_webViewController.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (_webViewController.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
+
     _internalController.attach(_webViewController);
   }
 
