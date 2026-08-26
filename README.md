@@ -2,13 +2,29 @@
 
 A highly customizable, powerful, and easy-to-use YouTube player for Flutter. **Goat YouTube Player** provides a seamless video playback experience in your application, empowering developers to integrate YouTube videos effortlessly. 
 
-## ✨ Features
+## 🏆 Why Goat YouTube Player?
 
-- **🚀 Plug and Play:** Set up the player with just a few lines of code. No complex configuration is required.
-- **📱 Fully Responsive:** Adapts flawlessly across different screen sizes and orientations.
-- **🎮 Custom Controller:** Complete programmatic control over the playback state (Play, Pause, Load Video, etc.).
-- **⚡ High Performance:** Optimized for smooth and seamless video streaming.
-- **🎨 Highly Customizable:** Flexible enough to fit your app's unique design and behavior requirements.
+| Feature | Description |
+| :--- | :--- |
+| **🚀 Plug & Play** | Drop the widget in, pass a video ID, and you're good to go. |
+| **🎮 Programmatic Control** | Full API to play, pause, seek, and switch videos dynamically. |
+| **📱 Responsive Design** | Adapts perfectly to portrait, landscape, and tablets. |
+| **⚡ High Performance** | Highly optimized rendering with minimal overhead. |
+| **🎨 Customizable** | Easy to tweak UI/UX to match your app's theme. |
+| **🛡️ Safe & Secure** | Follows best practices for embedding third-party content securely. |
+
+## 🌍 Platform Support
+
+This package ensures a reliable viewing experience across major platforms:
+
+| Platform | Supported |
+| :--- | :---: |
+| 🤖 **Android** | ✅ |
+| 🍎 **iOS** | ✅ |
+| 🌐 **Web** | ✅ |
+| 💻 **macOS** | ✅ |
+| 🪟 **Windows** | 🚧 *Coming Soon* |
+| 🐧 **Linux** | 🚧 *Coming Soon* |
 
 ## 🎯 What is it for?
 
