@@ -77,7 +77,9 @@ class GoatYtPlayer extends StatefulWidget {
 class _GoatYtPlayerState extends State<GoatYtPlayer> {
   late final WebViewController _webViewController;
   late final GoatYtPlayerController _internalController;
+  final GlobalKey _webViewKey = GlobalKey();
   bool _isFullscreen = false;
+  String _playerState = 'unstarted';
 
   @override
   void initState() {
@@ -160,7 +162,8 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
           widget.onReady?.call();
           break;
         case 'onStateChange':
-          widget.onStateChange?.call(payload['state'].toString());
+          _playerState = payload['state'].toString();
+          widget.onStateChange?.call(_playerState);
           break;
         case 'onError':
           widget.onError?.call(payload['code']?.toString() ?? 'unknown');
@@ -195,6 +198,8 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
   void _toggleFullscreen(bool fullscreen) {
     if (_isFullscreen == fullscreen) return;
     
+    final bool wasPlaying = _playerState == '1';
+
     if (fullscreen) {
       setState(() {
         _isFullscreen = true;
@@ -216,7 +221,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
               backgroundColor: Colors.black,
               body: SafeArea(
                 child: Center(
-                  child: WebViewWidget(controller: _webViewController),
+                  child: WebViewWidget(key: _webViewKey, controller: _webViewController),
                 ),
               ),
             );
@@ -233,10 +238,21 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
         ]);
         SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
         if (mounted) setState(() {});
+        
+        if (wasPlaying) {
+          Future.delayed(const Duration(milliseconds: 600), () {
+            _internalController.play();
+          });
+        }
       });
     } else {
       // Just pop. The `then` block above handles restoring state.
       Navigator.of(context).pop();
+      if (wasPlaying) {
+        Future.delayed(const Duration(milliseconds: 600), () {
+          _internalController.play();
+        });
+      }
     }
   }
 
@@ -250,7 +266,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
     }
     return AspectRatio(
       aspectRatio: widget.aspectRatio,
-      child: WebViewWidget(controller: _webViewController),
+      child: WebViewWidget(key: _webViewKey, controller: _webViewController),
     );
   }
 }
