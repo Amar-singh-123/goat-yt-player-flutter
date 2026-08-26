@@ -195,11 +195,11 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
   void _toggleFullscreen(bool fullscreen) {
     if (_isFullscreen == fullscreen) return;
     
-    setState(() {
-      _isFullscreen = fullscreen;
-    });
-
     if (fullscreen) {
+      setState(() {
+        _isFullscreen = true;
+      });
+
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
@@ -209,6 +209,8 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
       Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false,
+          transitionDuration: Duration.zero,
+          reverseTransitionDuration: Duration.zero,
           pageBuilder: (context, _, __) {
             return Scaffold(
               backgroundColor: Colors.black,
@@ -221,11 +223,10 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
           },
         ),
       ).then((_) {
-        // When popped (e.g. via Android back button)
-        if (_isFullscreen) {
-          _isFullscreen = false;
-          _internalController.exitFullscreen(); // notify JS
-        }
+        // Runs after popped (e.g. via Android back button or exit button)
+        _isFullscreen = false;
+        _internalController.exitFullscreen(); // Ensure JS is synced
+        
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.portraitUp,
           DeviceOrientation.portraitDown,
@@ -234,6 +235,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
         if (mounted) setState(() {});
       });
     } else {
+      // Just pop. The `then` block above handles restoring state.
       Navigator.of(context).pop();
     }
   }
