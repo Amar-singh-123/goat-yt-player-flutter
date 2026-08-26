@@ -1,6 +1,6 @@
 name: goat_yt_player_flutter
 description: A customized YouTube Player for Flutter apps using WebView.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/Amar-singh-123/goat-yt-player-flutter
 repository: https://github.com/Amar-singh-123/goat-yt-player-flutter
 
@@ -56,3 +56,10 @@ flutter:
   #
   # For details regarding fonts in packages, see
   # https://flutter.dev/to/font-from-package
+platforms:
+  android:
+  ios:
+  web:
+  macos:
+  windows:
+  linux:

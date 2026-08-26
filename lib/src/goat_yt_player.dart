@@ -6,39 +6,90 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'goat_yt_player_controller.dart';
 
+/// The main widget for embedding a YouTube video player.
 class GoatYtPlayer extends StatefulWidget {
+  /// The YouTube Video ID to be played.
   final String videoId;
+  
+  /// The URL of the hosted player HTML page.
   final String hostedPlayerUrl;
+  
+  /// The controller to programmatically interact with the player.
   final GoatYtPlayerController? controller;
   
+  /// The aspect ratio of the player (default is 16/9).
   final double aspectRatio;
+  
+  /// Whether the video should automatically start playing (default is false).
   final bool autoplay;
+  
+  /// Whether the video starts muted (default is false).
   final bool mute;
+  
+  /// Whether the video should loop indefinitely (default is false).
   final bool loop;
+  
+  /// Time in seconds where the video should start.
   final int start;
+  
+  /// Time in seconds where the video should end.
   final int? end;
+  
+  /// Whether to show the entire control bar (default is true).
   final bool showControls;
+  
+  /// Time in ms before controls automatically hide on inactivity (default is 3000).
   final int autohide;
+  
+  /// HEX color string (e.g., `FF0000`) for the player's primary accents.
   final String? accentColor;
+  
+  /// Call to action text for the player.
   final String? ctaText;
+  
+  /// URL to redirect to when the CTA is clicked.
   final String? ctaUrl;
   
+  /// Whether to show the seek bar (default is true).
   final bool showSeek;
+  
+  /// Whether to show the volume control (default is true).
   final bool showVolume;
+  
+  /// Whether to show the playback speed control (default is true).
   final bool showSpeed;
+  
+  /// Whether to show the video quality selector (default is true).
   final bool showQuality;
+  
+  /// Whether to show the rewind button (default is true).
   final bool showRewind;
+  
+  /// Whether to show the fullscreen toggle button (default is true).
   final bool showFullscreen;
 
-  // callbacks
+  /// Callback when the player is ready to receive commands.
   final VoidCallback? onReady;
+  
+  /// Callback when the player's state changes (e.g., playing, paused).
   final Function(String state)? onStateChange;
+  
+  /// Callback when an error occurs.
   final Function(String code)? onError;
+  
+  /// Callback for video progress updates.
   final Function(double currentTime, double duration, double buffered)? onProgress;
+  
+  /// Callback when the volume changes or is muted.
   final Function(int volume, bool muted)? onVolumeChange;
+  
+  /// Callback when the video quality changes.
   final Function(String quality)? onQualityChange;
+  
+  /// Callback when the player enters or exits fullscreen mode.
   final Function(bool fullscreen)? onFullscreenChange;
 
+  /// Creates a new instance of [GoatYtPlayer].
   const GoatYtPlayer({
     super.key,
     required this.videoId,
