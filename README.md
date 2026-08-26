@@ -80,12 +80,47 @@ class _MyVideoScreenState extends State<MyVideoScreen> {
       body: Center(
         child: GoatYtPlayer(
           controller: _controller,
+          // Customizing the player is easy!
+          autoplay: true,
+          mute: true,
+          showControls: true,
+          accentColor: 'FF0000', // Make the UI red
         ),
       ),
     );
   }
 }
 ```
+
+## 🎨 Customization & Properties
+
+**GoatYtPlayer** comes packed with customizable parameters to tailor the player exactly to your needs.
+
+### 🎛️ Player Options
+
+| Parameter | Type | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `autoplay` | `bool` | `false` | Automatically starts the video when loaded. |
+| `mute` | `bool` | `false` | Starts the video muted. |
+| `loop` | `bool` | `false` | Loops the video playback indefinitely. |
+| `start` | `int` | `0` | Starts the video at a specific time (in seconds). |
+| `end` | `int?` | `null` | Stops the video at a specific time (in seconds). |
+| `aspectRatio` | `double` | `16/9` | The aspect ratio of the player widget. |
+
+### 🖌️ UI Controls & Theming
+
+| Parameter | Type | Default | Description |
+| :--- | :---: | :---: | :--- |
+| `showControls` | `bool` | `true` | Shows or hides the entire control bar. |
+| `accentColor` | `String?` | `null` | HEX color string (e.g., `FF0000`) for the player's primary accents. |
+| `autohide` | `int` | `3000` | Time in ms before controls automatically hide on inactivity. |
+| `showSeek` | `bool` | `true` | Shows the seek bar slider. |
+| `showVolume` | `bool` | `true` | Shows the volume control button. |
+| `showFullscreen` | `bool` | `true` | Shows the fullscreen toggle button. |
+| `showQuality` | `bool` | `true` | Shows the video quality selector. |
+| `showSpeed` | `bool` | `true` | Shows the playback speed selector. |
+
+*(For advanced usage, you can also inject Callbacks like `onReady`, `onStateChange`, `onProgress`, `onVolumeChange`, and more!)*
 
 ## 🔗 Additional information
 
