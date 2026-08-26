@@ -145,6 +145,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
     if (widget.accentColor != null) params['accent'] = widget.accentColor!;
     if (widget.ctaText != null) params['cta_text'] = widget.ctaText!;
     if (widget.ctaUrl != null) params['cta_url'] = widget.ctaUrl!;
+    params['_t'] = DateTime.now().millisecondsSinceEpoch.toString();
 
     return uri.replace(queryParameters: params).toString();
   }
