@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -76,6 +77,7 @@ class GoatYtPlayer extends StatefulWidget {
 class _GoatYtPlayerState extends State<GoatYtPlayer> {
   late final WebViewController _webViewController;
   late final GoatYtPlayerController _internalController;
+  bool _isFullscreen = false;
 
   @override
   void initState() {
@@ -181,6 +183,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
           break;
         case 'onFullscreenChange':
           final bool fullscreen = payload['fullscreen'] == true;
+          _toggleFullscreen(fullscreen);
           widget.onFullscreenChange?.call(fullscreen);
           break;
       }
@@ -189,8 +192,60 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
     }
   }
 
+  void _toggleFullscreen(bool fullscreen) {
+    if (_isFullscreen == fullscreen) return;
+    
+    setState(() {
+      _isFullscreen = fullscreen;
+    });
+
+    if (fullscreen) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false,
+          pageBuilder: (context, _, __) {
+            return Scaffold(
+              backgroundColor: Colors.black,
+              body: SafeArea(
+                child: Center(
+                  child: WebViewWidget(controller: _webViewController),
+                ),
+              ),
+            );
+          },
+        ),
+      ).then((_) {
+        // When popped (e.g. via Android back button)
+        if (_isFullscreen) {
+          _isFullscreen = false;
+          _internalController.exitFullscreen(); // notify JS
+        }
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+        if (mounted) setState(() {});
+      });
+    } else {
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (_isFullscreen) {
+      return AspectRatio(
+        aspectRatio: widget.aspectRatio,
+        child: const Container(color: Colors.black),
+      );
+    }
     return AspectRatio(
       aspectRatio: widget.aspectRatio,
       child: WebViewWidget(controller: _webViewController),
