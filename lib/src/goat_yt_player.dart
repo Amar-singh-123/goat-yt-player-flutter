@@ -243,7 +243,7 @@ class _GoatYtPlayerState extends State<GoatYtPlayer> {
     if (_isFullscreen) {
       return AspectRatio(
         aspectRatio: widget.aspectRatio,
-        child: const Container(color: Colors.black),
+        child: Container(color: Colors.black),
       );
     }
     return AspectRatio(
