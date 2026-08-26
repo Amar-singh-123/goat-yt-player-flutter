@@ -1,7 +1,8 @@
 name: goat_yt_player_flutter
-description: "A new Flutter package project."
+description: A customized YouTube Player for Flutter apps using WebView.
 version: 0.0.1
-homepage:
+homepage: https://github.com/Amar-singh-123/goat-yt-player-flutter
+repository: https://github.com/Amar-singh-123/goat-yt-player-flutter
 
 environment:
   sdk: ^3.13.1
